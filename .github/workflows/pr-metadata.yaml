@@ -17,3 +17,17 @@ jobs:
           repo: ${{ github.event.repository.name }}
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
+  cordova-android:
+    runs-on: ubuntu-latest
+    name: Create and Build Android project
+    steps:
+      - name: Use oxr463/setup-cordova
+        uses: oxr463/setup-cordova@0.0.3
+        with:
+          exec: |
+            cordova create hello com.example.hello HelloWorld && \
+            cd hello && \
+            cordova platform add android && \
+            cordova build --no-telemetry && \
+            cp "$(find . -name '*.apk')" .        
